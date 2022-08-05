@@ -8,6 +8,9 @@ local gfx <const> = playdate.graphics
 local ballSprite = nil
 local paddleSprite = nil
 
+local paddleVelocity <const> = 8
+local paddleWidth <const> = 50
+
 local blocks = {}
 
 function setup()
@@ -44,6 +47,22 @@ end
 setup()
 
 function playdate.update()
+  local screenWidth = playdate.display.getWidth()
+  local halfPaddleW = paddleWidth / 2
+
+  if playdate.buttonIsPressed(playdate.kButtonLeft) then
+    paddleSprite:moveBy(-paddleVelocity, 0)
+    if paddleSprite.x - halfPaddleW <= 0 then
+      paddleSprite:moveTo(halfPaddleW, paddleSprite.y)
+    end
+  end
+  if playdate.buttonIsPressed(playdate.kButtonRight) then
+    paddleSprite:moveBy(paddleVelocity, 0)
+    if paddleSprite.x + halfPaddleW > screenWidth then
+      paddleSprite:moveTo(screenWidth - halfPaddleW, paddleSprite.y)
+    end
+  end
+
   gfx.sprite.update()
   playdate.timer.updateTimers()
 end
