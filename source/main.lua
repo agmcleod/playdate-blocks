@@ -23,13 +23,14 @@ local lives = 5
 function setup()
   gfx.setBackgroundColor(gfx.kColorWhite)
 
-  local font = gfx.font.new('fonts/blocky')
+  local font = gfx.font.new('fonts/Bitmore/font-Bitmore-Medieval-Bold')
   assert(font)
-  font:setTracking(1)
   gfx.setFont(font)
 
-  scoreSprite:moveTo(10, 200)
-  scoreSprite.text = "Lives: " .. lives
+  assert(scoreSprite)
+  scoreSprite:moveTo(10, 220)
+  scoreSprite:setScore(lives)
+  scoreSprite:add()
 
   local blockImage = gfx.image.new('images/block.png')
   assert(blockImage)
@@ -134,6 +135,7 @@ function playdate.update()
     if ballSprite.y + ballSprite.height / 2 >= screenHeight then
       ballAttachedToPaddle = true
       lives -= 1
+      scoreSprite:setScore(lives)
     end
 
     scanBlocksToDelete()
