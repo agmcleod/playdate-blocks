@@ -98,8 +98,12 @@ function scanBlocksToDelete()
       defeatedBlocks += 1
 
       if defeatedBlocks >= totalBlocks then
-        print("game over")
+        gameEnded = true
+        activeModal = Modal('You Won! Press any\nbutton to restart')
+        activeModal:add()
       end
+    else
+      ballSprite:moveBy(0, -ballSprite.height / 2)
     end
 
     collided = true
@@ -152,7 +156,7 @@ function handleBallMovement()
     scoreSprite:setScore(lives)
     if lives == 0 then
       gameEnded = true
-      activeModal = Modal('Game Over! Press any button to restart')
+      activeModal = Modal('Game Over! Press any\nbutton to restart')
       activeModal:add()
     end
   end

@@ -5,16 +5,27 @@ local screenHeight = playdate.display.getHeight()
 local image = gfx.image.new('images/modal.png')
 assert(image)
 
-class('Modal').extends(gfx.sprite)
+class('Modal').extends()
 
 function Modal:init(text)
-  Modal.super.init(self, image)
-  self.text = text
-  self:moveTo(screenWidth / 2, screenHeight / 2)
+  self.background = gfx.sprite.new(image)
+  self.textSprite = gfx.sprite.new()
+  self.textSprite:setSize(self.background.width - 20, self.background.height - 20)
+  self.textSprite:moveTo(screenWidth / 2, screenHeight / 2)
+  self.background:moveTo(screenWidth / 2, screenHeight / 2)
+  self.textSprite.text = text
+
+  function self.textSprite:draw()
+    gfx.drawTextAligned(self.text, self.width / 2, 0, kTextAlignment.center)
+  end
 end
 
-function Modal:draw()
-  Modal.super.draw()
+function Modal:add()
+  self.background:add()
+  self.textSprite:add()
+end
 
-  gfx.drawText(self.text, 0, 0)
+function Modal:remove()
+  self.background:remove()
+  self.textSprite:remove()
 end
