@@ -1,0 +1,6 @@
+name=Break Some Blocks
+author=Aaron McLeod
+description=A remake of a classic game where you break some bricks by bouncing a ball.
+bundleID=com.agmcleod.blocks
+version=1.0
+imagePath=images/launcher.png

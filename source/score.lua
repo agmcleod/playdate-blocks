@@ -1,5 +1,3 @@
-import "CoreLibs/graphics"
-
 local gfx <const> = playdate.graphics
 
 scoreSprite = gfx.sprite.new()
@@ -7,11 +5,7 @@ scoreSprite:setSize(60, 20)
 scoreSprite.text = ''
 
 function scoreSprite:draw()
-  gfx.pushContext()
-
   gfx.drawTextAligned(self.text, 0, 0, kTextAlignment.left)
-
-  gfx.popContext()
 end
 
 function scoreSprite:setScore(s)
