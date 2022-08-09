@@ -89,7 +89,6 @@ end
 
 setup()
 
--- TODO: Should refactor this to use: https://sdk.play.date/1.12.2/Inside%20Playdate.html#c-graphics.sprite.collisionResponse
 function scanBlocksToDelete()
   local overlappingSprites = ballSprite:overlappingSprites()
   local collided = false
