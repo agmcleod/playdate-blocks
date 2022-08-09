@@ -132,6 +132,20 @@ function handleBallHeld()
   end
 end
 
+function limitPaddleLeft()
+  local halfPaddleW = paddleSprite.width / 2
+  if paddleSprite.x - halfPaddleW <= 0 then
+    paddleSprite:moveTo(halfPaddleW, paddleSprite.y)
+  end
+end
+
+function limitPaddleRight()
+  local halfPaddleW = paddleSprite.width / 2
+  if paddleSprite.x + halfPaddleW > screenWidth then
+    paddleSprite:moveTo(screenWidth - halfPaddleW, paddleSprite.y)
+  end
+end
+
 function handleBallMovement()
   local halfBallWidth = ballSprite.width / 2
   ballSprite:moveBy(velocityDir.x * velocity, velocityDir.y * velocity)
@@ -168,8 +182,6 @@ function handleBallMovement()
 end
 
 function playdate.update()
-  local halfPaddleW = paddleSprite.width / 2
-
   if gameEnded then
     if playdate.buttonIsPressed(playdate.kButtonA) or playdate.buttonIsPressed(playdate.kButtonB) then
       activeModal:remove()
@@ -179,15 +191,18 @@ function playdate.update()
   else
     if playdate.buttonIsPressed(playdate.kButtonLeft) then
       paddleSprite:moveBy(-paddleVelocity, 0)
-      if paddleSprite.x - halfPaddleW <= 0 then
-        paddleSprite:moveTo(halfPaddleW, paddleSprite.y)
-      end
+      limitPaddleLeft()
     end
     if playdate.buttonIsPressed(playdate.kButtonRight) then
       paddleSprite:moveBy(paddleVelocity, 0)
-      if paddleSprite.x + halfPaddleW > screenWidth then
-        paddleSprite:moveTo(screenWidth - halfPaddleW, paddleSprite.y)
-      end
+      limitPaddleRight()
+    end
+
+    if not playdate.isCrankDocked() then
+      local change, accelChange = playdate.getCrankChange()
+      paddleSprite:moveBy(change, 0)
+      limitPaddleLeft()
+      limitPaddleRight()
     end
 
     if ballAttachedToPaddle then
