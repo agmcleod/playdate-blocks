@@ -89,6 +89,7 @@ end
 
 setup()
 
+-- TODO: Should refactor this to use: https://sdk.play.date/1.12.2/Inside%20Playdate.html#c-graphics.sprite.collisionResponse
 function scanBlocksToDelete()
   local overlappingSprites = ballSprite:overlappingSprites()
   local collided = false
@@ -104,6 +105,11 @@ function scanBlocksToDelete()
       end
     else
       ballSprite:moveBy(0, -ballSprite.height / 2)
+      if ballSprite.x <= paddleSprite.x then
+        velocityDir.x = -1
+      else
+        velocityDir.x = 1
+      end
     end
 
     collided = true
